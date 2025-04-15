@@ -26,12 +26,17 @@ export class ScenarioInputComponent {
   TFile?: File;
 
   onOrderSubmit() {
-    this.selectedComponents = this.componentOrder
-      .toUpperCase()
-      .split('')
-      .filter(char => this.validComponents.includes(char));
     this.submitted = true;
   }
+  
+  addComponent(comp: string) {
+    this.selectedComponents.push(comp);
+  }
+  
+  removeComponent(index: number) {
+    this.selectedComponents.splice(index, 1);
+  }
+  
 
   onFileChange(event: any, target: 'L' | 'T') {
     const file = event.target.files[0];

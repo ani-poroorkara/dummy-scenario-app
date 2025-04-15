@@ -2,19 +2,44 @@
     <h3>Create New Scenario</h3>
   
     <!-- Step 1: Order -->
-    <form class="mb-4" (ngSubmit)="onOrderSubmit()" *ngIf="!submitted">
-      <div class="mb-3">
-        <label class="form-label">Enter Component Order (e.g., csbrt)</label>
-        <input
-          [(ngModel)]="componentOrder"
-          name="order"
-          class="form-control"
-          placeholder="Enter order like lcesbrt"
-          required
-        />
-      </div>
-      <button type="submit" class="btn btn-primary">Continue</button>
-    </form>
+    <div *ngIf="!submitted" class="mb-4">
+        <label class="form-label">Build Component Order:</label>
+        <div class="mb-2">
+          <button
+            *ngFor="let comp of validComponents"
+            type="button"
+            class="btn btn-outline-primary btn-sm me-2 mb-2"
+            (click)="addComponent(comp)"
+            [disabled]="selectedComponents.length >= 7"
+          >
+            {{ comp }}
+          </button>
+        </div>
+      
+        <!-- Display Selected Order -->
+        <div class="mb-3">
+          <span
+            *ngFor="let comp of selectedComponents; let i = index"
+            class="badge rounded-pill bg-info text-dark me-2 mb-2"
+          >
+            {{ comp }}
+            <button
+              type="button"
+              class="btn-close btn-close-white btn-sm ms-2"
+              aria-label="Remove"
+              (click)="removeComponent(i)"
+            ></button>
+          </span>
+        </div>
+      
+        <button
+          class="btn btn-primary"
+          (click)="onOrderSubmit()"
+          [disabled]="selectedComponents.length === 0"
+        >
+          Continue
+        </button>
+    </div>
   
     <!-- Step 2: Dynamic Inputs -->
     <form *ngIf="submitted" (ngSubmit)="runScenario()">
