@@ -1,1 +1,99 @@
-<p>scenario-input works!</p>
+<div class="container py-4">
+    <h3>Create New Scenario</h3>
+  
+    <!-- Step 1: Order -->
+    <form class="mb-4" (ngSubmit)="onOrderSubmit()" *ngIf="!submitted">
+      <div class="mb-3">
+        <label class="form-label">Enter Component Order (e.g., csbrt)</label>
+        <input
+          [(ngModel)]="componentOrder"
+          name="order"
+          class="form-control"
+          placeholder="Enter order like lcesbrt"
+          required
+        />
+      </div>
+      <button type="submit" class="btn btn-primary">Continue</button>
+    </form>
+  
+    <!-- Step 2: Dynamic Inputs -->
+    <form *ngIf="submitted" (ngSubmit)="runScenario()">
+      <div *ngFor="let component of selectedComponents">
+        <!-- L -->
+        <div *ngIf="component === 'L'" class="mb-3">
+          <label class="form-label">Upload File (L)</label>
+          <input type="file" (change)="onFileChange($event, 'L')" class="form-control" />
+        </div>
+  
+        <!-- E -->
+        <div *ngIf="component === 'E'" class="mb-3">
+          <label class="form-label">Function Name (E)</label>
+          <input type="text" class="form-control mb-2" [(ngModel)]="EFuncName" name="efuncname" />
+          <label class="form-label">Function Code</label>
+          <textarea
+            class="form-control"
+            rows="4"
+            [(ngModel)]="EFuncCode"
+            name="efunccode"
+          ></textarea>
+        </div>
+  
+        <!-- C -->
+        <div *ngIf="component === 'C'" class="mb-3">
+          <label class="form-label">Choose Type (C)</label><br />
+          <div class="form-check form-check-inline">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="ctype"
+              value="portfolio"
+              [(ngModel)]="CChoice"
+            />
+            <label class="form-check-label">Portfolio</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="ctype"
+              value="product"
+              [(ngModel)]="CChoice"
+            />
+            <label class="form-check-label">Product</label>
+          </div>
+  
+          <!-- Portfolio choices -->
+          <div *ngIf="CChoice === 'portfolio'" class="mt-2">
+            <select class="form-select" [(ngModel)]="CPortfolio" name="portfolioSelect">
+              <option value="">Select Portfolio</option>
+              <option *ngFor="let p of ['P1', 'P2', 'P3']" [value]="p">{{ p }}</option>
+            </select>
+          </div>
+  
+          <!-- Product choices -->
+          <div *ngIf="CChoice === 'product'" class="mt-2">
+            <select class="form-select" [(ngModel)]="CProduct" name="productSelect">
+              <option value="">Select Product</option>
+              <option *ngFor="let p of ['Prod1','Prod2','Prod3','Prod4','Prod5','Prod6','Prod7','Prod8','Prod9','Prod10']" [value]="p">{{ p }}</option>
+            </select>
+          </div>
+        </div>
+  
+        <!-- S, B, R -->
+        <div *ngIf="['S', 'B', 'R'].includes(component)" class="mb-3">
+          <p><strong>{{ component }}</strong> has no inputs.</p>
+        </div>
+  
+        <!-- T -->
+        <div *ngIf="component === 'T'" class="mb-3">
+          <label class="form-label">Upload File (T)</label>
+          <input type="file" (change)="onFileChange($event, 'T')" class="form-control" />
+        </div>
+  
+        <hr />
+      </div>
+  
+      <button type="submit" class="btn btn-success">Run Scenario</button>
+    </form>
+  </div>
+  
