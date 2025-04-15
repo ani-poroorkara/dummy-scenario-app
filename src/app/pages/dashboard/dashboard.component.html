@@ -1,1 +1,25 @@
-<p>dashboard works!</p>
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h2>Dashboard</h2>
+      <button class="btn btn-success" (click)="goToNewScenario()">Create New Scenario</button>
+    </div>
+  
+    <h5>Past Run Scenarios</h5>
+    <table class="table table-bordered table-hover mt-3">
+      <thead class="table-light">
+        <tr>
+          <th>ID</th>
+          <th>Scenario Name</th>
+          <th>Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let scenario of pastScenarios">
+          <td>{{ scenario.id }}</td>
+          <td>{{ scenario.name }}</td>
+          <td>{{ scenario.date }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
