@@ -1,22 +1,40 @@
 <div class="container mt-5">
-    <h3 class="mb-4">Run Complete</h3>
-  
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h2>Scenario Results</h2>
+      <div>
+        <a class="btn btn-secondary me-2" [routerLink]="['/dashboard']"> ← Back to Dashboard</a>
+        <a class="btn btn-primary" [routerLink]="['/scenario-input']">+ Run Another Scenario</a>
+      </div>
+    </div>
+    <!-- Summary -->
     <div class="card mb-4">
       <div class="card-body">
         <h5 class="card-title">Scenario Summary</h5>
-        <p><strong>Name:</strong> {{ scenarioSummary.name }}</p>
+        <p><strong>Name:</strong> {{ scenarioName }}</p>
         <p><strong>Date:</strong> {{ scenarioSummary.date }}</p>
         <p>
           <strong>Components Used:</strong>
           <span
-            *ngFor="let comp of scenarioSummary.components"
+            *ngFor="let comp of selectedComponents"
             class="badge bg-secondary me-2"
             >{{ comp }}</span
           >
         </p>
       </div>
     </div>
-  
+
+    <!-- Components -->
+    <div *ngFor="let component of selectedComponents" class="card mb-3">
+      <div class="card-header">
+        Component: {{ component }}
+      </div>
+      <div class="card-body">
+        <p>Results for component <strong>{{ component }}</strong> go here.</p>
+        <a class="btn btn-sm btn-outline-success" href="#">Download {{ component }} Report</a>
+      </div>
+    </div>
+
+    <!-- Results -->
     <div class="card">
       <div class="card-body">
         <h5 class="card-title">Reports</h5>
