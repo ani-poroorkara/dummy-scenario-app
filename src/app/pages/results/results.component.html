@@ -1,1 +1,39 @@
-<p>results works!</p>
+<div class="container mt-5">
+    <h3 class="mb-4">Run Complete</h3>
+  
+    <div class="card mb-4">
+      <div class="card-body">
+        <h5 class="card-title">Scenario Summary</h5>
+        <p><strong>Name:</strong> {{ scenarioSummary.name }}</p>
+        <p><strong>Date:</strong> {{ scenarioSummary.date }}</p>
+        <p>
+          <strong>Components Used:</strong>
+          <span
+            *ngFor="let comp of scenarioSummary.components"
+            class="badge bg-secondary me-2"
+            >{{ comp }}</span
+          >
+        </p>
+      </div>
+    </div>
+  
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Reports</h5>
+        <ul class="list-group">
+          <li
+            *ngFor="let report of reports"
+            class="list-group-item d-flex justify-content-between align-items-center"
+          >
+            {{ report.name }}
+            <button
+              class="btn btn-sm btn-outline-success"
+              (click)="download(report.file)"
+            >
+              Download
+            </button>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>

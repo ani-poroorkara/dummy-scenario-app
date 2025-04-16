@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-scenario-input',
@@ -25,6 +26,8 @@ export class ScenarioInputComponent {
   CProduct = '';
   TFile?: File;
 
+  constructor(private router: Router) {}  // ✅ This goes inside the class
+
   onOrderSubmit() {
     this.submitted = true;
   }
@@ -45,7 +48,6 @@ export class ScenarioInputComponent {
   }
 
   runScenario() {
-    alert('Running... (fake run for now)');
-    // TODO: Route to output/report page
+    this.router.navigate(['/running']);
   }
 }
