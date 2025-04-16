@@ -1,30 +1,83 @@
 <div class="container mt-4">
-  <div class="d-flex justify-content-between align-items-center mb-3">
-    <h2>Dash Board</h2>
-    <button class="btn btn-primary" (click)="createNewScenario()">+ Create New Scenario</button>
+  <div class="d-flex align-items-center">
+    <h1 class="display-3">Dashboard</h1>
+  </div>
+  <hr class="flex-grow-1 ms-3" />
+
+  <!-- Quick Runs Section -->
+  <h1 class="display-6">Quick Runs</h1>
+  <p class="text-muted">Run something quickly</p>
+
+  <div class="d-flex gap-2">
+      <button 
+        class="btn btn-success"
+        (click)="runRetailBaseScenario()"
+      >
+        <i class="bi bi-plus-circle me-2"></i>Retail Baseline Scenario
+      </button>
+      <button 
+        class="btn btn-success"
+        (click)="runWholesaleBaseScenario()"
+      >
+        <i class="bi bi-plus-circle me-2"></i>Wholesale Baseline Scenario
+      </button>
+      <button 
+        class="btn btn-primary ms-auto p-2"
+        (click)="createNewScenario()"
+      >
+        <i class="bi bi-plus-circle me-2"></i>Create New Scenario
+      </button>
   </div>
 
-  <table class="table table-striped table-bordered">
-    <thead class="table-dark">
-      <tr>
-        <th>#</th>
-        <th>Scenario Name</th>
-        <th>Date</th>
-        <th>Components</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let scenario of scenarios; let i = index">
-        <td>{{ i + 1 }}</td>
-        <td>{{ scenario.name }}</td>
-        <td>{{ scenario.date }}</td>
-        <td>{{ scenario.components.join(' > ') }}</td>
-        <td>
-          <button class="btn btn-success btn-sm me-2" (click)="runScenario(scenario)">Run</button>
-          <button class="btn btn-danger btn-sm" (click)="deleteScenario(i)">Delete</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <br>
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h1 class="display-6">Test Scenarios</h1>
+      <p class="text-muted">Manage and execute your test scenarios</p>
+    </div>
+  </div>
+
+  <div *ngIf="scenarios.length === 0" class="alert alert-info">
+    <i class="bi bi-info-circle me-2"></i>No scenarios found. Create your first scenario to get started.
+  </div>
+
+  <div *ngIf="scenarios.length > 0" class="table-responsive">
+    <table class="table table-hover table-striped">
+      <thead class="table-light">
+        <tr>
+          <th>Scenario Name</th>
+          <th>Components Flow</th>
+          <th class="text-end">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let scenario of scenarios; let i = index">
+          <td class="fw-bold">{{scenario.name}}</td>
+          <td>
+            <div class="d-flex flex-wrap gap-1">
+              <span *ngFor="let component of scenario.components" class="badge bg-secondary">
+                {{component}}
+              </span>
+            </div>
+          </td>
+          <td class="text-end">
+            <div class="btn-group btn-group-sm">
+              <button 
+                class="btn btn-outline-success"
+                (click)="runScenario(scenario)"
+              >
+                <i class="bi bi-play-fill me-1"></i>Run
+              </button>
+              <button 
+                class="btn btn-outline-danger"
+                (click)="deleteScenario(i)"
+              >
+                <i class="bi bi-trash-fill me-1"></i>Delete
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>

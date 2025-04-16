@@ -26,6 +26,24 @@ export class DashboardComponent implements OnInit {
     this.router.navigate(['/scenario-input']);
   }
 
+  runRetailBaseScenario() {
+    this.router.navigate(['/running'], {
+      queryParams: {
+        name: 'Retail Base Scenario',
+        components: 'L>E>C>S>B>R>T'
+      }
+    });
+  }
+
+  runWholesaleBaseScenario() {
+    this.router.navigate(['/running'], {
+      queryParams: {
+        name: 'Wholesale Base Scenario',
+        components: 'L>E>C>S>B>R>T'
+      }
+    });
+  }
+
   runScenario(scenario: any) {
     this.router.navigate(['/running'], {
       queryParams: {
