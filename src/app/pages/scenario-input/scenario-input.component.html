@@ -1,125 +1,174 @@
 <div class="container py-4">
-    <h3>Create New Scenario</h3>
-    <!-- Step 1: Order -->
-    <div *ngIf="!submitted" class="mb-4">
-        <label for="scenarioName" class="form-label">Scenario Name</label>
-        <input type="text" class="form-control" id="scenarioName" [(ngModel)]="scenarioName" />
-        <label class="form-label">Build Component Order:</label>
-        <div class="mb-2">
+  <!-- Header Section -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h3 class="display-3 mb-0">Create New Scenario</h3>
+    <div *ngIf="!submitted" class="badge bg-primary rounded-pill">
+      Step 1 of 2
+    </div>
+    <div *ngIf="submitted" class="badge bg-success rounded-pill">
+      Step 2 of 2
+    </div>
+  </div>
+
+  <!-- Step 1: Order -->
+  <div *ngIf="!submitted" class="card shadow-sm mb-4">
+    <div class="card-body">
+      <div class="mb-3">
+        <label for="scenarioName" class="form-label fw-bold">Scenario Name</label>
+        <input type="text" class="form-control form-control-lg" id="scenarioName" [(ngModel)]="scenarioName" 
+               placeholder="Enter scenario name">
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label fw-bold">Build Component Order</label>
+        <p class="text-muted small mb-2">Select the components in order you wish to run:</p>
+        <div class="d-flex flex-wrap gap-2 mb-3">
           <button
             *ngFor="let comp of validComponents"
             type="button"
-            class="btn btn-outline-primary btn-sm me-2 mb-2"
+            class="btn rounded-pill btn-outline-primary"
             (click)="addComponent(comp)"
-            [disabled]="selectedComponents.length >= 7"
           >
             {{ comp }}
+            <span *ngIf="selectedComponents.includes(comp)" class="ms-2">
+              <i class="bi bi-check-circle-fill"></i>
+            </span>
           </button>
         </div>
-      
-        <!-- Display Selected Order -->
-        <div class="mb-3">
+      </div>
+
+      <!-- Selected Components -->
+      <div class="mb-4">
+        <label class="form-label fw-bold">Selected Order</label>
+        <div *ngIf="selectedComponents.length === 0" class="alert alert-info py-2">
+          No components selected yet
+        </div>
+        <div *ngIf="selectedComponents.length > 0" class="d-flex flex-wrap gap-2">
           <span
             *ngFor="let comp of selectedComponents; let i = index"
-            class="badge rounded-pill bg-info text-dark me-2 mb-2"
+            class="badge rounded-pill bg-primary d-flex align-items-center"
           >
-            {{ comp }}
+            <span class="me-2">{{ i+1 }}. {{ comp }}</span>
             <button
               type="button"
-              class="btn-close btn-close-white btn-sm ms-2"
+              class="btn-close btn-close-white btn-close-sm"
               aria-label="Remove"
               (click)="removeComponent(i)"
             ></button>
           </span>
         </div>
-      
+      </div>
+
+      <div class="d-flex justify-content-end">
         <button
-          class="btn btn-primary"
+          class="btn btn-primary px-4"
           (click)="onOrderSubmit()"
           [disabled]="selectedComponents.length === 0"
         >
-          Continue
+          Continue <i class="bi bi-arrow-right ms-2"></i>
         </button>
-    </div>
-  
-    <!-- Step 2: Dynamic Inputs -->
-    <form *ngIf="submitted" (ngSubmit)="runScenario()">
-      <div *ngFor="let component of selectedComponents">
-        <!-- L -->
-        <div *ngIf="component === 'L'" class="mb-3">
-          <label class="form-label">Upload File (L)</label>
-          <input type="file" (change)="onFileChange($event, 'L')" class="form-control" />
-        </div>
-  
-        <!-- E -->
-        <div *ngIf="component === 'E'" class="mb-3">
-          <label class="form-label">Function Name (E)</label>
-          <input type="text" class="form-control mb-2" [(ngModel)]="EFuncName" name="efuncname" />
-          <label class="form-label">Function Code</label>
-          <textarea
-            class="form-control"
-            rows="4"
-            [(ngModel)]="EFuncCode"
-            name="efunccode"
-          ></textarea>
-        </div>
-  
-        <!-- C -->
-        <div *ngIf="component === 'C'" class="mb-3">
-          <label class="form-label">Choose Type (C)</label><br />
-          <div class="form-check form-check-inline">
-            <input
-              class="form-check-input"
-              type="radio"
-              name="ctype"
-              value="portfolio"
-              [(ngModel)]="CChoice"
-            />
-            <label class="form-check-label">Portfolio</label>
-          </div>
-          <div class="form-check form-check-inline">
-            <input
-              class="form-check-input"
-              type="radio"
-              name="ctype"
-              value="product"
-              [(ngModel)]="CChoice"
-            />
-            <label class="form-check-label">Product</label>
-          </div>
-  
-          <!-- Portfolio choices -->
-          <div *ngIf="CChoice === 'portfolio'" class="mt-2">
-            <select class="form-select" [(ngModel)]="CPortfolio" name="portfolioSelect">
-              <option value="">Select Portfolio</option>
-              <option *ngFor="let p of ['P1', 'P2', 'P3']" [value]="p">{{ p }}</option>
-            </select>
-          </div>
-  
-          <!-- Product choices -->
-          <div *ngIf="CChoice === 'product'" class="mt-2">
-            <select class="form-select" [(ngModel)]="CProduct" name="productSelect">
-              <option value="">Select Product</option>
-              <option *ngFor="let p of ['Prod1','Prod2','Prod3','Prod4','Prod5','Prod6','Prod7','Prod8','Prod9','Prod10']" [value]="p">{{ p }}</option>
-            </select>
-          </div>
-        </div>
-  
-        <!-- S, B, R -->
-        <div *ngIf="['S', 'B', 'R'].includes(component)" class="mb-3">
-          <p><strong>{{ component }}</strong> has no inputs.</p>
-        </div>
-  
-        <!-- T -->
-        <div *ngIf="component === 'T'" class="mb-3">
-          <label class="form-label">Upload File (T)</label>
-          <input type="file" (change)="onFileChange($event, 'T')" class="form-control" />
-        </div>
-  
-        <hr />
       </div>
-  
-      <button type="submit" class="btn btn-success">Run Scenario</button>
-    </form>
+    </div>
   </div>
-  
+
+  <!-- Step 2: Dynamic Inputs -->
+  <form *ngIf="submitted" (ngSubmit)="runScenario()" class="card shadow-sm">
+    <div class="card-body">
+      <h5 class="card-title mb-4">Configure Components</h5>
+      
+      <div *ngFor="let component of selectedComponents; let i = index" class="mb-4">
+        <div class="card mb-3">
+          <div class="card-header bg-light">
+            <h6 class="mb-0">Component {{i+1}}: {{component}}</h6>
+          </div>
+          <div class="card-body">
+            <!-- L -->
+            <div *ngIf="component === 'L'" class="mb-3">
+              <label class="form-label fw-bold">Upload File (L)</label>
+              <input type="file" (change)="onFileChange($event, 'L')" class="form-control" />
+            </div>
+
+            <!-- E -->
+            <div *ngIf="component === 'E'" class="mb-3">
+              <label class="form-label fw-bold">Function Name (E)</label>
+              <input type="text" class="form-control mb-3" [(ngModel)]="EFuncName" name="efuncname" 
+                     placeholder="Enter function name">
+              <label class="form-label fw-bold">Function Code</label>
+              <textarea
+                class="form-control font-monospace"
+                rows="6"
+                [(ngModel)]="EFuncCode"
+                name="efunccode"
+                placeholder="Enter your code here..."
+              ></textarea>
+            </div>
+
+            <!-- C -->
+            <div *ngIf="component === 'C'" class="mb-3">
+              <label class="form-label fw-bold">Choose Type (C)</label>
+              <div class="d-flex gap-3 mb-3">
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name="ctype"
+                    value="portfolio"
+                    [(ngModel)]="CChoice"
+                  />
+                  <label class="form-check-label">Portfolio</label>
+                </div>
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name="ctype"
+                    value="product"
+                    [(ngModel)]="CChoice"
+                  />
+                  <label class="form-check-label">Product</label>
+                </div>
+              </div>
+
+              <!-- Portfolio choices -->
+              <div *ngIf="CChoice === 'portfolio'" class="mt-2">
+                <select class="form-select" [(ngModel)]="CPortfolio" name="portfolioSelect">
+                  <option value="">Select Portfolio</option>
+                  <option *ngFor="let p of ['P1', 'P2', 'P3']" [value]="p">{{ p }}</option>
+                </select>
+              </div>
+
+              <!-- Product choices -->
+              <div *ngIf="CChoice === 'product'" class="mt-2">
+                <select class="form-select" [(ngModel)]="CProduct" name="productSelect">
+                  <option value="">Select Product</option>
+                  <option *ngFor="let p of ['Prod1','Prod2','Prod3','Prod4','Prod5','Prod6','Prod7','Prod8','Prod9','Prod10']" [value]="p">{{ p }}</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- S, B, R -->
+            <div *ngIf="['S', 'B', 'R'].includes(component)" class="alert alert-info">
+              <i class="bi bi-info-circle me-2"></i>
+              <strong>{{ component }}</strong> requires no additional configuration.
+            </div>
+
+            <!-- T -->
+            <div *ngIf="component === 'T'" class="mb-3">
+              <label class="form-label fw-bold">Upload File (T)</label>
+              <input type="file" (change)="onFileChange($event, 'T')" class="form-control" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="d-flex justify-content-between mt-4">
+        <button type="button" class="btn btn-outline-secondary" (click)="submitted = false">
+          <i class="bi bi-arrow-left me-2"></i> Back
+        </button>
+        <button type="submit" class="btn btn-success px-4">
+          Run Scenario <i class="bi bi-play-fill ms-2"></i>
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
