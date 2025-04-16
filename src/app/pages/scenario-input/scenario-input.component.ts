@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 })
 export class ScenarioInputComponent {
   componentOrder: string = '';
+  scenarioName: string = '';
   submitted = false;
 
   validComponents = ['L', 'E', 'C', 'S', 'B', 'R', 'T'];
@@ -26,7 +27,7 @@ export class ScenarioInputComponent {
   CProduct = '';
   TFile?: File;
 
-  constructor(private router: Router) {}  // ✅ This goes inside the class
+  constructor(private router: Router) {}
 
   onOrderSubmit() {
     this.submitted = true;
@@ -48,6 +49,11 @@ export class ScenarioInputComponent {
   }
 
   runScenario() {
-    this.router.navigate(['/running']);
+    this.router.navigate(['/running'], {
+      queryParams: {
+        name: this.scenarioName,
+        components: this.selectedComponents.join('>')
+      }
+    });
   }
 }

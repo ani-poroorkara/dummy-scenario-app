@@ -1,8 +1,9 @@
 <div class="container py-4">
     <h3>Create New Scenario</h3>
-  
     <!-- Step 1: Order -->
     <div *ngIf="!submitted" class="mb-4">
+        <label for="scenarioName" class="form-label">Scenario Name</label>
+        <input type="text" class="form-control" id="scenarioName" [(ngModel)]="scenarioName" />
         <label class="form-label">Build Component Order:</label>
         <div class="mb-2">
           <button
