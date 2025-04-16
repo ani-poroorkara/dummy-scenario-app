@@ -49,6 +49,20 @@ export class ScenarioInputComponent {
   }
 
   runScenario() {
+    if (!this.scenarioName || this.selectedComponents.length === 0) return;
+    
+    const scenario = {
+      name: this.scenarioName,
+      date: new Date().toLocaleString(),
+      components: [...this.selectedComponents]
+    };
+
+    const existing = localStorage.getItem('scenarios');
+    const scenarios = existing ? JSON.parse(existing) : [];
+
+    scenarios.push(scenario);
+    localStorage.setItem('scenarios', JSON.stringify(scenarios));
+
     this.router.navigate(['/running'], {
       queryParams: {
         name: this.scenarioName,

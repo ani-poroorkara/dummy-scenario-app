@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -9,14 +9,34 @@ import { RouterModule } from '@angular/router';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent {
-  pastScenarios = [
-    { id: 1, name: 'Scenario 1', date: '2025-04-10' },
-    { id: 2, name: 'Scenario 2', date: '2025-04-12' },
-    { id: 3, name: 'Scenario 3', date: '2025-04-13' }
-  ];
 
-  goToNewScenario() {
-    window.location.href = 'scenario-input';
+export class DashboardComponent implements OnInit {
+  scenarios: any[] = [];
+
+  constructor(private router: Router) {}
+
+  ngOnInit(): void {
+    const storedScenarios = localStorage.getItem('scenarios');
+    if (storedScenarios) {
+      this.scenarios = JSON.parse(storedScenarios);
+    }
+  }
+
+  createNewScenario() {
+    this.router.navigate(['/scenario-input']);
+  }
+
+  runScenario(scenario: any) {
+    this.router.navigate(['/running'], {
+      queryParams: {
+        name: scenario.name,
+        components: scenario.components.join('>')
+      }
+    });
+  }
+
+  deleteScenario(index: number) {
+    this.scenarios.splice(index, 1);
+    localStorage.setItem('scenarios', JSON.stringify(this.scenarios));
   }
 }
