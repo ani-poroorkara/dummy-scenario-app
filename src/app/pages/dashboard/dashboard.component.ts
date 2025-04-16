@@ -18,6 +18,6 @@ export class DashboardComponent {
 
   goToNewScenario() {
     // Navigate to scenario-input page (we’ll build it next)
-    window.location.href = '/scenario-input';
+    window.location.href = 'scenario-input';
   }
 }
