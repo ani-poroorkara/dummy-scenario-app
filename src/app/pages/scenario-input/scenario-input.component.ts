@@ -33,21 +33,41 @@ export class ScenarioInputComponent {
     { value: 11, name: 'November' },
     { value: 12, name: 'December' },
   ];
+
+  basicEFunctions = [
+    { name: 'sum_values', code: 'def sum_values(x):\n    return sum(x)' },
+    { name: 'square_each', code: 'def square_each(x):\n    return [i*i for i in x]' },
+    { name: 'reverse_list', code: 'def reverse_list(x):\n    return x[::-1]' },
+  ];
+
+
   selectedComponents: string[] = [];
 
   // Inputs for components
   LFile?: File;
-  EFuncName = '';
-  EFuncCode = '';
-  CChoice = '';
-  CPortfolio = '';
-  CProduct = '';
-  TFile?: File;
   LFileName = '';
   LFileType = '';
   LGeneratedName = '';
 
+  EFuncName = '';
+  EFuncCode = '';
+  EOption: 'basic' | 'custom' = 'basic';  // Toggle state
+  
+  CChoice = '';
+  CPortfolio = '';
+  CProduct = '';
+  
+  TFile?: File;
+  
   constructor(private router: Router) {}
+
+  onBasicFunctionSelect(funcName: string) {
+    const selected = this.basicEFunctions.find(f => f.name === funcName);
+    if (selected) {
+      this.EFuncName = selected.name;
+      this.EFuncCode = selected.code;
+    }
+  }
 
   ngOnInit() {
     const currentYear = new Date().getFullYear();

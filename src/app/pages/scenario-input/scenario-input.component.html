@@ -127,17 +127,45 @@
 
             <!-- E -->
             <div *ngIf="component === 'E'" class="mb-3">
-              <label class="form-label fw-bold">Function Name (E)</label>
-              <input type="text" class="form-control mb-3" [(ngModel)]="EFuncName" name="efuncname" 
-                     placeholder="Enter function name">
-              <label class="form-label fw-bold">Function Code</label>
-              <textarea
-                class="form-control font-monospace"
-                rows="6"
-                [(ngModel)]="EFuncCode"
-                name="efunccode"
-                placeholder="Enter your code here..."
-              ></textarea>
+              <div class="mb-3">
+                <label class="form-label fw-bold">Select E Function Type</label>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="eOption" id="basicOption"
+                         value="basic" [(ngModel)]="EOption">
+                  <label class="form-check-label" for="basicOption">Basic</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="eOption" id="customOption"
+                         value="custom" [(ngModel)]="EOption">
+                  <label class="form-check-label" for="customOption">Custom</label>
+                </div>
+              </div>
+              
+              <!-- BASIC: Dropdown -->
+              <div class="mb-3" *ngIf="EOption === 'basic'">
+                <label class="form-label">Choose a predefined function</label>
+                <select class="form-select" [(ngModel)]="EFuncName" (change)="onBasicFunctionSelect(EFuncName)">
+                  <option *ngFor="let func of basicEFunctions" [value]="func.name">{{ func.name }}</option>
+                </select>
+              </div>
+              
+              <!-- CUSTOM: Textarea + Preview -->
+              <div *ngIf="EOption === 'custom'" class="mb-3">
+                <label class="form-label">Enter your Python function</label>
+                <textarea
+                  class="form-control"
+                  [(ngModel)]="EFuncCode"
+                  name="customFunc"
+                  rows="6"
+                  [ngModelOptions]="{standalone: true}"
+                  placeholder="def my_function(x):&#10;    return x * 2">
+                </textarea>
+              
+                <div class="mt-3">
+                  <label class="form-label">Function Preview:</label>
+                  <pre class="bg-light p-3 border rounded">{{ EFuncCode }}</pre>
+                </div>
+              </div>
             </div>
 
             <!-- C -->
