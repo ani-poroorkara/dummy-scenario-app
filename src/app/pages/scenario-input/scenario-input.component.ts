@@ -57,6 +57,9 @@ export class ScenarioInputComponent {
       components: [...this.selectedComponents]
     };
 
+    console.log('Scenario:', scenario);
+    console.log('Componenets:', scenario.components);
+
     const existing = localStorage.getItem('scenarios');
     const scenarios = existing ? JSON.parse(existing) : [];
 

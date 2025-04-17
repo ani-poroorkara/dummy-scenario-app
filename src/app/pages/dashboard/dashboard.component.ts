@@ -27,6 +27,19 @@ export class DashboardComponent implements OnInit {
   }
 
   runRetailBaseScenario() {
+
+    const scenario = {
+      name: 'Retail Base Scenario',
+      date: new Date().toLocaleString(),
+      components: ['L', 'E', 'C', 'S', 'B', 'R', 'T']
+    };
+
+    const existing = localStorage.getItem('scenarios');
+    const scenarios = existing ? JSON.parse(existing) : [];
+
+    scenarios.push(scenario);
+    localStorage.setItem('scenarios', JSON.stringify(scenarios));
+
     this.router.navigate(['/running'], {
       queryParams: {
         name: 'Retail Base Scenario',
@@ -36,6 +49,19 @@ export class DashboardComponent implements OnInit {
   }
 
   runWholesaleBaseScenario() {
+    
+    const scenario = {
+      name: "Wholesale Base Scenario",
+      date: new Date().toLocaleString(),
+      components: ['L', 'E', 'C', 'S', 'B', 'R', 'T']
+    };
+
+    const existing = localStorage.getItem('scenarios');
+    const scenarios = existing ? JSON.parse(existing) : [];
+
+    scenarios.push(scenario);
+    localStorage.setItem('scenarios', JSON.stringify(scenarios));
+
     this.router.navigate(['/running'], {
       queryParams: {
         name: 'Wholesale Base Scenario',
