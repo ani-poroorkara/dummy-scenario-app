@@ -37,6 +37,15 @@
     </div>
   </div>
 
+  <div class="mb-3">
+    <input
+      type="text"
+      class="form-control"
+      placeholder="Search past fake scenarios..."
+      [(ngModel)]="searchTerm"
+    />
+  </div>
+
   <div *ngIf="scenarios.length === 0" class="alert alert-info">
     <i class="bi bi-info-circle me-2"></i>No scenarios found. Create your first scenario to get started.
   </div>
@@ -51,7 +60,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let scenario of scenarios; let i = index">
+        <tr *ngFor="let scenario of filteredScenarios(); let i = index">
           <td class="fw-bold">{{scenario.name}}</td>
           <td>
             <div class="d-flex flex-wrap gap-1">

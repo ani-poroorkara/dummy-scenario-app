@@ -1,17 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, FormsModule],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
 
 export class DashboardComponent implements OnInit {
   scenarios: any[] = [];
+  searchTerm: string = '';
 
   constructor(private router: Router) {}
 
@@ -20,6 +22,14 @@ export class DashboardComponent implements OnInit {
     if (storedScenarios) {
       this.scenarios = JSON.parse(storedScenarios);
     }
+  }
+
+  filteredScenarios() {
+    if (!this.searchTerm.trim()) return this.scenarios;
+  
+    return this.scenarios.filter(scenario =>
+      scenario.name.toLowerCase().includes(this.searchTerm.toLowerCase())
+    );
   }
 
   createNewScenario() {
@@ -43,7 +53,7 @@ export class DashboardComponent implements OnInit {
     this.router.navigate(['/running'], {
       queryParams: {
         name: 'Retail Base Scenario',
-        components: 'L>E>C>S>B>R>T'
+        components: ['L', 'E', 'C', 'S', 'B', 'R', 'T']
       }
     });
   }
