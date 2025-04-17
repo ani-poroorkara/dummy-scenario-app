@@ -43,6 +43,9 @@ export class ScenarioInputComponent {
   CPortfolio = '';
   CProduct = '';
   TFile?: File;
+  LFileName = '';
+  LFileType = '';
+  LGeneratedName = '';
 
   constructor(private router: Router) {}
 
@@ -69,11 +72,26 @@ export class ScenarioInputComponent {
     this.selectedComponents.splice(index, 1);
   }
   
-
   onFileChange(event: any, target: 'L' | 'T') {
     const file = event.target.files[0];
-    if (target === 'L') this.LFile = file;
-    else this.TFile = file;
+    if (!file) return;
+  
+    const fileName = file.name;
+    const extension = fileName.split('.').pop()?.toLowerCase() || '';
+    const baseName = fileName.split('.').slice(0, -1).join('.');
+  
+    const formattedMonthYear = this.selectedYear && this.selectedMonth !== null
+      ? `${this.selectedYear}-${String(this.selectedMonth).padStart(2, '0')}`
+      : 'DATE_NOT_SET';
+  
+    if (target === 'L') {
+      this.LFile = file;
+      this.LFileName = fileName;
+      this.LFileType = extension;
+      this.LGeneratedName = `${baseName.toUpperCase()}_${formattedMonthYear}`;
+    } else {
+      this.TFile = file;
+    }
   }
 
   runScenario() {
@@ -93,7 +111,7 @@ export class ScenarioInputComponent {
     };
 
     console.log('Scenario:', scenario);
-    console.log('Componenets:', scenario.components);
+    console.log('Components:', scenario.components);
 
     const existing = localStorage.getItem('scenarios');
     const scenarios = existing ? JSON.parse(existing) : [];

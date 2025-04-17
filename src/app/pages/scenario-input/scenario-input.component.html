@@ -115,8 +115,14 @@
           <div class="card-body">
             <!-- L -->
             <div *ngIf="component === 'L'" class="mb-3">
-              <label class="form-label fw-bold">Upload File (L)</label>
-              <input type="file" (change)="onFileChange($event, 'L')" class="form-control" />
+              <label for="lFileUpload" class="form-label fw-bold">Upload L File</label>
+              <input type="file" class="form-control" id="lFileUpload" (change)="onFileChange($event, 'L')" accept=".csv, .xlsx" />
+
+              <div *ngIf="LFileName" class="mt-2">
+                <p class="mb-0"><strong>Original File:</strong> {{ LFileName }}</p>
+                <p class="mb-0"><strong>Generated Output Name:</strong> {{ LGeneratedName }}</p>
+                <p class="mb-0"><strong>File Type:</strong> {{ LFileType }}</p>
+              </div>
             </div>
 
             <!-- E -->
