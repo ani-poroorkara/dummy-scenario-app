@@ -13,6 +13,7 @@ export class RunningComponent implements OnInit {
 
   scenarioName: string = 'Custom Scenario';
   selectedComponents: string[] = [];
+  monthYear: string = '';
   constructor(private route: ActivatedRoute, private router: Router) {}
 
   ngOnInit(): void {
@@ -20,6 +21,7 @@ export class RunningComponent implements OnInit {
       if (params['name'] !== undefined) {
         this.scenarioName = params['name'];
         this.selectedComponents = params['components'];
+        this.monthYear = params['monthYear'];
       }
   
       // Always set the timeout, regardless of the value
@@ -28,6 +30,7 @@ export class RunningComponent implements OnInit {
           queryParams: {
             name: this.scenarioName,
             components: this.selectedComponents,
+            monthYear: this.monthYear
           }
         });
       }, 3000);

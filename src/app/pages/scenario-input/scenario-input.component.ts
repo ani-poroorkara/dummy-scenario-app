@@ -13,9 +13,26 @@ import { Router } from '@angular/router';
 export class ScenarioInputComponent {
   componentOrder: string = '';
   scenarioName: string = '';
+  years: number[] = [];
+  selectedMonth: number | null = null;
+  selectedYear: number | null = null;
   submitted = false;
 
   validComponents = ['L', 'E', 'C', 'S', 'B', 'R', 'T'];
+  months = [
+    { value: 1, name: 'January' },
+    { value: 2, name: 'February' },
+    { value: 3, name: 'March' },
+    { value: 4, name: 'April' },
+    { value: 5, name: 'May' },
+    { value: 6, name: 'June' },
+    { value: 7, name: 'July' },
+    { value: 8, name: 'August' },
+    { value: 9, name: 'September' },
+    { value: 10, name: 'October' },
+    { value: 11, name: 'November' },
+    { value: 12, name: 'December' },
+  ];
   selectedComponents: string[] = [];
 
   // Inputs for components
@@ -29,6 +46,17 @@ export class ScenarioInputComponent {
 
   constructor(private router: Router) {}
 
+  ngOnInit() {
+    const currentYear = new Date().getFullYear();
+    const currentMonth = new Date().getMonth();
+    for (let i = currentYear; i >= currentYear - 10; i--) {
+      this.years.push(i);
+    }
+
+    this.selectedMonth = currentMonth;
+    this.selectedYear = currentYear;
+  }
+  
   onOrderSubmit() {
     this.submitted = true;
   }
@@ -51,6 +79,13 @@ export class ScenarioInputComponent {
   runScenario() {
     if (!this.scenarioName || this.selectedComponents.length === 0) return;
     
+    if (this.selectedMonth === null || this.selectedYear === null) {
+      alert('Please select both month and year!');
+      return;
+    }
+
+    const formattedMonthYear = `${this.selectedYear}-${String(this.selectedMonth + 1).padStart(2, '0')}`;
+
     const scenario = {
       name: this.scenarioName,
       date: new Date().toLocaleString(),
@@ -69,7 +104,8 @@ export class ScenarioInputComponent {
     this.router.navigate(['/running'], {
       queryParams: {
         name: this.scenarioName,
-        components: this.selectedComponents.join('>')
+        components: this.selectedComponents.join('>'),
+        monthYear: formattedMonthYear
       }
     });
   }

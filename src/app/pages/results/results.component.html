@@ -2,7 +2,7 @@
   <!-- Header Section -->
   <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-4 gap-3">
     <div>
-      <h2 class="mb-2">Scenario Results</h2>
+      <h2 class="mb-2 display-3">Scenario Results</h2>
       <div class="text-muted">
         <i class="bi bi-clock-history me-1"></i> {{ scenarioSummary.date | date:'medium' }}
       </div>
@@ -16,6 +16,7 @@
       </a>
     </div>
   </div>
+  <hr>
 
   <!-- Summary Card -->
   <div class="card shadow-sm mb-4">
@@ -30,6 +31,8 @@
           <div class="mb-3">
             <h6 class="text-muted mb-2">Scenario Name</h6>
             <h4 class="fw-bold">{{ scenarioName }}</h4>
+            <h6 class="text-muted mb-2">Run Month & Year</h6>
+            <h4 class="fw-bold">{{ monthYear }}</h4>
           </div>
         </div>
         <div class="col-md-6">
@@ -45,7 +48,7 @@
       </div>
     </div>
   </div>
-
+  <hr>
   <!-- Component Results -->
   <h4 class="mb-3 mt-5">
     <i class="bi bi-puzzle me-2"></i>Component Results

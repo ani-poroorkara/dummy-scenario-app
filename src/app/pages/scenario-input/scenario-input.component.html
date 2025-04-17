@@ -18,6 +18,37 @@
         <input type="text" class="form-control form-control-lg" id="scenarioName" [(ngModel)]="scenarioName" 
                placeholder="Enter scenario name">
       </div>
+      
+      <div class="mb-3">
+        <label class="form-label fw-bold">Select Month and Year <span class="text-danger">*</span></label>
+        <div class="row">
+          <div class="col-md-6 mb-2">
+            <select
+              class="form-select"
+              [(ngModel)]="selectedMonth"
+              name="month"
+              required
+            >
+              <option [ngValue]="null" disabled>Select Month</option>
+              <option *ngFor="let month of months" [value]="month.value">{{ month.name }}</option>
+            </select>
+          </div>
+          <div class="col-md-6 mb-2">
+            <select
+              class="form-select"
+              [(ngModel)]="selectedYear"
+              name="year"
+              required
+            >
+              <option [ngValue]="null" disabled>Select Year</option>
+              <option *ngFor="let year of years" [value]="year">{{ year }}</option>
+            </select>
+          </div>
+        </div>
+        <div *ngIf="!selectedMonth || !selectedYear" class="text-danger small mt-1">
+          Please select both month and year.
+        </div>
+      </div>
 
       <div class="mb-3">
         <label class="form-label fw-bold">Build Component Order</label>

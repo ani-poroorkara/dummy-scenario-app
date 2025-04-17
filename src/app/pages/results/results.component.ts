@@ -13,6 +13,7 @@ export class ResultsComponent {
 
   scenarioName: string = 'Custom Scenario';
   selectedComponents: string[] = [];
+  monthYear: string = '';
   constructor(private route: ActivatedRoute, private router: Router) {}
 
   ngOnInit(): void {
@@ -20,6 +21,7 @@ export class ResultsComponent {
       if (params['name'] !== undefined) {
         this.scenarioName = params['name'];
         this.selectedComponents = params['components'].split('>');
+        this.monthYear = params['monthYear'];
       }
     });
   }
